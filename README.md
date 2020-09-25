@@ -8,7 +8,10 @@ Este teste faz parte do nosso processo de seleção e é a sua chance de nos mos
 Daremos um feedback a todos os que fizerem o Pull Request.
 As instruções para realização do teste estarão logo abaixo.
 
-A sua entrega será feita através de um Pull Request nesse repositório. Faça um fork do repositório, implemente o seu código e faça um pull request. Sinta-se a vontade para colocar quaisquer outras informações que você considere pertinente no README.
+A sua entrega será feita através de um Pull Request nesse repositório.
+> O projeto já foi gerado, e está pronto para iniciar as alterações solicitadas.
+
+ Faça um fork do repositório, implemente o seu código e faça um pull request. Sinta-se a vontade para colocar quaisquer outras informações que você considere pertinente no README.
 
 ---
 
