@@ -1,0 +1,42 @@
+h1 {
+  margin-bottom: 20px;
+  color: #fff;
+}
+.card {
+  display: flex;
+
+  width: 100%;
+  max-width: 900px;
+  border-radius: 5px;
+  padding: 10px;
+  background: #fff;
+  margin: auto;
+}
+table {
+  min-width: 80%;
+  margin: auto;
+  thead th {
+    color: #999;
+    text-align: center;
+    padding: 12px;
+  }
+  tbody td {
+    text-align: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+  }
+}
+
+button {
+  border: none;
+  background: none;
+}
+#icon-edit {
+  color: gray;
+}
+#icon-check {
+  color: green;
+}
+#icon-trash2 {
+  color: red;
+}

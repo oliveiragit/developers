@@ -1,6 +1,7 @@
 <h1>Lista de Grupos</h1>
-<div class="container">
-  <table *ngIf="(grupos | async) as grupos; else loading" >
+
+<div class="card">
+  <table *ngIf="grupos | async as grupos; else loading">
     <thead>
       <tr>
         <th></th>
@@ -12,36 +13,30 @@
     <tbody>
       <tr *ngFor="let grupo of grupos">
         <td>
-          <a>
-            <i-feather name="edit" style="color: gray"> </i-feather>
-          </a>
+          <button (click)="onEdit(grupo)">
+            <i-feather id="icon-edit" name="edit"> </i-feather>
+          </button>
         </td>
         <td>
           <span> {{ grupo.nome }}</span>
         </td>
         <td>
           <span>
-            <i-feather name="check-circle" style="color: green"></i-feather>
+            <i-feather id="icon-check" name="check-circle"></i-feather>
           </span>
         </td>
         <td>
-          <a>
-            <i-feather name="trash2" style="color: red"></i-feather>
-          </a>
+          <button (click)="onDelete(grupo)">
+            <i-feather id="icon-trash2" name="trash2"></i-feather>
+          </button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <ng-template #loading>
+    <span>Carregando Grupos...</span>
+  </ng-template>
+
+  <div></div>
 </div>
-
-<ng-template #loading>
-  <span>Carregando Cursos...</span>
-</ng-template>
-
-<ng-template #deleteModal>
-  <div class="modal-body text-center">
-    <p>Tem certeza que deseja remover esse curso?</p>
-    <button type="button" class="btn btn-default" (click)="onConfirmDelete()">Sim</button>
-    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">Nao</button>
-  </div>
-</ng-template>

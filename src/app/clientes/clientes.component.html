@@ -1,1 +1,58 @@
-<p>clientes works!</p>
+<h1>Lista de Clientes</h1>
+
+<div class="card">
+  <table *ngIf="clientes | async as clientes; else loading">
+    <thead>
+      <tr>
+        <th></th>
+        <th>NOME</th>
+        <th>CPF</th>
+        <th>TELEFONE</th>
+        <th>DATA DO CADASTRO</th>
+        <th>GRUPO</th>
+        <th>ATIVO</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cliente of clientes">
+        <td>
+          <button (click)="onEdit(cliente)">
+            <i-feather id="icon-edit" name="edit"> </i-feather>
+          </button>
+        </td>
+        <td>
+          <span> {{ cliente.nome }}</span>
+        </td>
+        <td>
+          <span> {{ cliente.cpf }}</span>
+        </td>
+        <td>
+          <span> {{ cliente.telefone }}</span>
+        </td>
+        <td>
+          <span> {{ cliente.dataCadastro }}</span>
+        </td>
+        <td>
+          <span> {{ cliente.grupoId }}</span>
+        </td>
+        <td>
+          <span>
+            <i-feather id="icon-check" name="check-circle"></i-feather>
+          </span>
+        </td>
+        <td>
+          <button (click)="onDelete(cliente)">
+            <i-feather id="icon-trash2" name="trash2"></i-feather>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #loading>
+    <span>Carregando Clientes...</span>
+  </ng-template>
+
+  <div></div>
+</div>

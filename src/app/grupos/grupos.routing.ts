@@ -7,6 +7,7 @@ import { GruposComponent } from './grupos.component';
 const gruposRoutes: Routes = [
   { path: '', component: GruposComponent },
   { path: 'form', component: GrupoFormComponent },
+  { path: 'editar/:id', component: GrupoFormComponent },
 ];
 
 @NgModule({

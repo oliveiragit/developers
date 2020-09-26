@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
 
@@ -11,9 +12,13 @@ import { GruposService } from './grupos.service';
   styleUrls: ['./grupos.component.scss'],
 })
 export class GruposComponent implements OnInit {
-  constructor(private grupoService: GruposService) {}
-
   grupos: Observable<Grupo[]>;
+
+  constructor(
+    private grupoService: GruposService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.grupos = this.grupoService.getGrupos().pipe(
@@ -22,5 +27,16 @@ export class GruposComponent implements OnInit {
         return EMPTY;
       })
     );
+  }
+
+  onEdit(grupo: Grupo) {
+    this.router.navigate(['']);
+    this.router.navigate(['editar', grupo.grupoId], { relativeTo: this.route });
+  }
+
+  onDelete(grupo: Grupo) {
+    if (confirm(`O grupo ${grupo.nome} será apagado. Tem certeza?`)) {
+      this.grupoService.remove(grupo.grupoId);
+    }
   }
 }

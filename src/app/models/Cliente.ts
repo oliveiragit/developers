@@ -1,4 +1,4 @@
-export class Clientes {
+export class Cliente {
   constructor() {
     this.dataCadastro = new Date();
   }

@@ -14,16 +14,6 @@ export class GruposService {
 
   private readonly API = `${environment.API}/TesteGrupos`;
 
-  private grupos: Grupo[] = [
-    // { grupoId: 1, nome: 'jose', ativo: true },
-    // { grupoId: 1, nome: 'jose', ativo: true },
-    // { grupoId: 1, nome: 'jose', ativo: true },
-  ];
-
-  // getGrupos() {
-  //   return this.grupos;
-  // }
-
   getGrupos() {
     return this.http.get<Grupo[]>(this.API).pipe(delay(2000), tap(console.log));
   }
