@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  API: 'http://179.228.137.45:7777/micro-cadastro/api',
+  BASE_URL: '/api'
 };
 
 /*

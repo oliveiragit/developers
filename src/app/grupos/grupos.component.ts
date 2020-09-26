@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError, switchMap, take } from 'rxjs/operators';
 
 import { Grupo } from 'src/app/models/Grupo';
 import { GruposService } from './grupos.service';
+
 @Component({
   selector: 'app-grupos',
   templateUrl: './grupos.component.html',
@@ -10,9 +13,14 @@ import { GruposService } from './grupos.service';
 export class GruposComponent implements OnInit {
   constructor(private grupoService: GruposService) {}
 
-  grupos: Grupo[];
+  grupos: Observable<Grupo[]>;
 
   ngOnInit(): void {
-    this.grupos = this.grupoService.getGrupos();
+    this.grupos = this.grupoService.getGrupos().pipe(
+      catchError((error) => {
+        console.error(error);
+        return EMPTY;
+      })
+    );
   }
 }

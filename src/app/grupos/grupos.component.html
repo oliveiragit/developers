@@ -1,6 +1,6 @@
 <h1>Lista de Grupos</h1>
 <div class="container">
-  <table>
+  <table *ngIf="(grupos | async) as grupos; else loading" >
     <thead>
       <tr>
         <th></th>
@@ -33,3 +33,15 @@
     </tbody>
   </table>
 </div>
+
+<ng-template #loading>
+  <span>Carregando Cursos...</span>
+</ng-template>
+
+<ng-template #deleteModal>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja remover esse curso?</p>
+    <button type="button" class="btn btn-default" (click)="onConfirmDelete()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">Nao</button>
+  </div>
+</ng-template>
