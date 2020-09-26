@@ -7,8 +7,12 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
-    path: 'cadastros',
-    loadChildren: './cadastros/cadastros.module#CadastrosModule',
+    path: 'grupos',
+    loadChildren: './grupos/grupos.module#GruposModule',
+  },
+  {
+    path: 'clientes',
+    loadChildren: './clientes/clientes.module#ClientesModule',
   },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
