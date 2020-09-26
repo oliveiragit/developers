@@ -8,6 +8,7 @@ import { GruposModule } from './grupos/grupos.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
+import { IconsModule } from './icons/icons.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,6 @@ import { HomeComponent } from './home/home.component';
     ClientesModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

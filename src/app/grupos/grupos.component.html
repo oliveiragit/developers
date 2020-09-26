@@ -1,1 +1,35 @@
-<p>grupos works!</p>
+<h1>Lista de Grupos</h1>
+<div class="container">
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th>NOME</th>
+        <th>ATIVO</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let grupo of grupos">
+        <td>
+          <a>
+            <i-feather name="edit" style="color: gray"> </i-feather>
+          </a>
+        </td>
+        <td>
+          <span> {{ grupo.nome }}</span>
+        </td>
+        <td>
+          <span>
+            <i-feather name="check-circle" style="color: green"></i-feather>
+          </span>
+        </td>
+        <td>
+          <a>
+            <i-feather name="trash2" style="color: red"></i-feather>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
