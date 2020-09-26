@@ -34,7 +34,7 @@
           <span> {{ cliente.dataCadastro }}</span>
         </td>
         <td>
-          <span> {{ cliente.grupoId }}</span>
+          <span> {{ cliente.grupo.nome }}</span>
         </td>
         <td>
           <span>
@@ -52,6 +52,9 @@
 
   <ng-template #loading>
     <span>Carregando Clientes...</span>
+  </ng-template>
+  <ng-template #loadingGrupos>
+    <span>Carregando...</span>
   </ng-template>
 
   <div></div>
