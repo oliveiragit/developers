@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { ListasModule } from './listas/listas.module';
-import { CadastrosModule } from './cadastros/cadastros.module';
+import { GruposModule } from './grupos/grupos.module';
+import { ClientesModule } from './clientes/clientes.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { HomeComponent } from './home/home.component';
 
@@ -19,8 +19,8 @@ import { HomeComponent } from './home/home.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ListasModule,
-    CadastrosModule,
+    GruposModule,
+    ClientesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
