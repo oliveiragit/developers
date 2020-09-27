@@ -31,7 +31,7 @@ export class GruposComponent implements OnInit {
 
   onEdit(grupo: Grupo) {
     this.router.navigate(['']);
-    this.router.navigate(['editar', grupo.grupoId], { relativeTo: this.route });
+    this.router.navigate(['editar', grupo.grupoId], {state: {grupo}, relativeTo: this.route });
   }
 
   onDelete(grupo: Grupo) {

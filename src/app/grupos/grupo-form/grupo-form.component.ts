@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Cliente } from 'src/app/models/Cliente';
-
-// import { Grupo } from 'src/app/models/Grupo';
-// import { GruposService } from '../grupos.service';
+import { Grupo } from 'src/app/models/Grupo';
+import { GruposService } from '../grupos.service';
 
 @Component({
   selector: 'app-grupo-form',
@@ -12,19 +13,43 @@ import { Cliente } from 'src/app/models/Cliente';
   styleUrls: ['./grupo-form.component.scss'],
 })
 export class GrupoFormComponent implements OnInit {
-  formCliente: FormGroup;
+  grupos: Observable<Grupo[]>;
+  grupoSelecionado: Grupo;
+  formulario: FormGroup;
+  grupoId: number;
+  state$: Observable<object>;
 
-  constructor() {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private grupoService: GruposService,
+    public activatedRoute: ActivatedRoute
+  ) {}
 
-  createForm(cliente: Cliente) {
-    this.formCliente = new FormGroup({
-      nome: new FormControl(cliente.nome),
-      cpf: new FormControl(cliente.cpf),
-      telefone: new FormControl(cliente.telefone),
+  ngOnInit() {
+    this.state$ = this.activatedRoute.paramMap.pipe(
+      map(() => window.history.state)
+    );
+
+    if (history.state.grupo) {
+      this.grupoSelecionado = history.state.grupo;
+    } else {
+      this.grupoSelecionado = new Grupo();
+    }
+
+    this.configurarFormulario();
+  }
+
+  configurarFormulario() {
+    this.formulario = this.formBuilder.group({
+      nome: [
+        this.grupoSelecionado.grupoId,
+        [Validators.required, Validators.min(3)],
+      ],
+      ativo: [this.grupoSelecionado.ativo, Validators.required],
     });
   }
-  ngOnInit(): void {
-    this.createForm(new Cliente());
+
+  criar() {
+    console.log(this.formulario.value);
   }
-  onSubmit() {}
 }
