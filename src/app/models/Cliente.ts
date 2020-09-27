@@ -5,8 +5,9 @@ export class Cliente {
   clienteId: number;
   nome: string;
   cpf: string;
-  dataCadastro: Date;
-  grupoId: number;
-  ativo: boolean;
   telefone: string;
+  grupoId: number;
+  dataCadastro: Date;
+  ativo: boolean;
+
 }
