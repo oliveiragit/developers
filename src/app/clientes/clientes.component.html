@@ -1,5 +1,20 @@
 <h1>Lista de Clientes</h1>
 
+<button id="button-novo" (click)="novoCliente()">Novo Cliente</button>
+
+<div class="Filtros">
+  <p>Filtros</p>
+  <div>
+    <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
+    <label>por nome</label>
+  </div>
+
+  <div>
+    <input id="{checkAtivo}" type="checkbox" [(ngModel)]="searchAtivo" />
+    <label for="checkAtivo">Apenas os Ativos</label>
+  </div>
+</div>
+
 <div class="card">
   <table *ngIf="clientes | async as clientes; else loading">
     <thead>
@@ -15,7 +30,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let cliente of clientes">
+      <tr
+        *ngFor="
+          let cliente of clientes
+            | filter: 'nome':searchString
+            | filter: 'ativo':searchAtivo
+        "
+      >
         <td>
           <button (click)="onEdit(cliente)">
             <i-feather id="icon-edit" name="edit"> </i-feather>
@@ -31,14 +52,19 @@
           <span> {{ cliente.telefone }}</span>
         </td>
         <td>
-          <span> {{ cliente.dataCadastro | date:"MM/dd/yyyy 'às' HH:mm "}}</span>
+          <span>
+            {{ cliente.dataCadastro | date: "MM/dd/yyyy 'às' HH:mm " }}</span
+          >
         </td>
         <td>
           <span> {{ cliente.grupo.nome }}</span>
         </td>
         <td>
-          <span>
+          <span *ngIf="cliente.ativo">
             <i-feather id="icon-check" name="check-circle"></i-feather>
+          </span>
+          <span *ngIf="!cliente.ativo">
+            <i-feather id="icon-xcircle" name="x-circle"></i-feather>
           </span>
         </td>
         <td>
@@ -53,5 +79,4 @@
   <ng-template #loading>
     <span>Carregando Clientes...</span>
   </ng-template>
-
 </div>

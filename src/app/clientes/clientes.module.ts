@@ -1,24 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { ClientesRoutingModule } from './clientes.routing';
 import { ClientesComponent } from './clientes.component';
 import { ClienteFormComponent } from './cliente-form/cliente-form.component';
-import { ClientesService } from './clientes.service';
 import { IconsModule } from '../icons/icons.module';
-
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
-  declarations: [
-    ClientesComponent,
-    ClienteFormComponent,
-  ],
+  declarations: [ClientesComponent, ClienteFormComponent],
   imports: [
     CommonModule,
     ClientesRoutingModule,
     IconsModule,
+    FormsModule,
+    PipesModule
   ],
 
-  providers: [ClientesService],
+  providers: [],
 })
 export class ClientesModule {}

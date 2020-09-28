@@ -2,7 +2,7 @@
 
 <button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
 
-<div class="filtros">
+<div class="Filtros">
   <p>Filtros</p>
   <div>
     <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
@@ -30,8 +30,7 @@
         *ngFor="
           let grupo of grupos
             | filter: 'nome':searchString
-            | filter: 'ativo':searchAtivo;
-          let i = index
+            | filter: 'ativo':searchAtivo
         "
       >
         <td>
@@ -43,8 +42,11 @@
           <span> {{ grupo.nome }}</span>
         </td>
         <td>
-          <span>
+          <span *ngIf="grupo.ativo">
             <i-feather id="icon-check" name="check-circle"></i-feather>
+          </span>
+          <span *ngIf="!grupo.ativo">
+            <i-feather id="icon-xcircle" name="x-circle"></i-feather>
           </span>
         </td>
         <td>

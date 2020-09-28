@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, Observable, PartialObserver } from 'rxjs';
-import { catchError, filter, map, reduce } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { Grupo } from 'src/app/models/Grupo';
 import { GruposService } from './grupos.service';
@@ -47,6 +47,7 @@ export class GruposComponent implements OnInit {
       this.grupoService.deleteGrupo(grupo).subscribe(this.grupoSelecionado);
     }
   }
+
   novoGrupo() {
     this.router.navigate(['form'], { relativeTo: this.route });
   }

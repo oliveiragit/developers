@@ -6,19 +6,17 @@ import { GruposRouting } from './grupos.routing';
 import { GrupoFormComponent } from './grupo-form/grupo-form.component';
 import { GruposComponent } from './grupos.component';
 import { IconsModule } from '../icons/icons.module';
-import { FilterPipe } from 'src/app/pipes/filter.pipe';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
-  declarations: [
-    GruposComponent,
-    GrupoFormComponent,
-    FilterPipe],
+  declarations: [GruposComponent, GrupoFormComponent],
   imports: [
     CommonModule,
     GruposRouting,
     IconsModule,
     ReactiveFormsModule,
     FormsModule,
+    PipesModule
   ],
   providers: [],
 })

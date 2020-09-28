@@ -26,7 +26,6 @@
   </div>
 
   <button type="submit" [disabled]="formulario.invalid">Salvar</button>
-  <p *ngIf="!err | async; else erro"></p>
 </form>
 
 <ng-template #loading>

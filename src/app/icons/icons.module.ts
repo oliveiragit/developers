@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 
 import { FeatherModule } from 'angular-feather';
-import { Edit, Trash2, CheckCircle } from 'angular-feather/icons';
+import { Edit, Trash2, CheckCircle, XCircle } from 'angular-feather/icons';
 
 const icons = {
   Edit,
   Trash2,
   CheckCircle,
+  XCircle
 };
 
 @NgModule({

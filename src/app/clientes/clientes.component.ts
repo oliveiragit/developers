@@ -15,12 +15,14 @@ import { ClientesService } from './clientes.service';
 })
 export class ClientesComponent implements OnInit {
   clientes: Observable<any[]>;
+  searchString: string;
+  searchAtivo: boolean;
 
   constructor(
     private clienteService: ClientesService,
     private grupoService: GruposService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -61,5 +63,9 @@ export class ClientesComponent implements OnInit {
     if (confirm(`O cliente ${cliente.nome} será apagado. Tem certeza?`)) {
       this.clienteService.remove(cliente.clienteId);
     }
+  }
+
+  novoCliente() {
+    this.router.navigate(['form'], { relativeTo: this.route });
   }
 }

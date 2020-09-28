@@ -2,6 +2,7 @@ h1 {
   padding: 12px;
   color: #fff;
 }
+
 .card {
   display: flex;
 
@@ -37,6 +38,9 @@ table {
     color: green;
   }
   #icon-trash2 {
+    color: red;
+  }
+  #icon-xcircle {
     color: red;
   }
 }
