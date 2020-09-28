@@ -17,6 +17,7 @@ export class ClientesComponent implements OnInit {
   clientes: Observable<any[]>;
   searchString: string;
   searchAtivo: boolean;
+  clienteSelecionado
 
   constructor(
     private clienteService: ClientesService,
@@ -52,16 +53,18 @@ export class ClientesComponent implements OnInit {
     this.clientes = combineLatest([clientes$, grupos$]).pipe(map(mergeById));
   }
 
+
   onEdit(cliente: Cliente) {
     this.router.navigate(['']);
-    this.router.navigate(['editar', cliente.clienteId], {
+    this.router.navigate(['editar', cliente.grupoId], {
+      state: { cliente },
       relativeTo: this.route,
     });
   }
 
   onDelete(cliente: Cliente) {
-    if (confirm(`O cliente ${cliente.nome} será apagado. Tem certeza?`)) {
-      this.clienteService.remove(cliente.clienteId);
+    if (confirm(`O grupo ${cliente.nome} será apagado. Tem certeza?`)) {
+      this.clienteService.deleteCliente(cliente).subscribe(this.clienteSelecionado);
     }
   }
 

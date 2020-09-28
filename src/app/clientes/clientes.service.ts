@@ -1,44 +1,56 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { tap, delay, take } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { retry, catchError, take } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
 import { Cliente } from 'src/app/models/Cliente';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientesService {
-  constructor(private http: HttpClient) {}
+  url = `${environment.API}/TesteClientes/`;
 
-  private readonly API = `${environment.API}/TesteClientes`;
+  // injetando o HttpClient
+  constructor(private httpClient: HttpClient) {}
 
-  getClientes() {
-    return this.http
-      .get<Cliente[]>(this.API)
-      .pipe(delay(2000), tap(console.log));
+  getClientes(): Observable<Cliente[]> {
+    return this.httpClient
+      .get<Cliente[]>(this.url)
+      .pipe(retry(2), catchError(this.handleError));
   }
 
-  loadByID(id) {
-    return this.http.get<Cliente>(`${this.API}/${id}`).pipe(take(1));
+  createCliente(cliente: Cliente): Observable<Cliente> {
+    return this.httpClient
+      .post<Cliente>(this.url, cliente)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  private create(cliente) {
-    return this.http.post(this.API, cliente).pipe(take(1));
+  updateCliente(cliente: Cliente): Observable<Cliente> {
+    return this.httpClient
+      .put<Cliente>(this.url, cliente)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  private update(cliente) {
-    return this.http.put(`${this.API}/${cliente.id}`, cliente).pipe(take(1));
+  deleteCliente(cliente: Cliente) {
+    return this.httpClient
+      .delete<Cliente>(this.url)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  save(cliente) {
-    if (cliente.id) {
-      return this.update(cliente);
+  // Manipulação de erros
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erro ocorreu no lado do client
+      errorMessage = error.error.message;
+    } else {
+      // Erro ocorreu no lado do servidor
+      errorMessage =
+        `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
     }
-    return this.create(cliente);
-  }
-
-  remove(id) {
-    return this.http.delete(`${this.API}/${id}`).pipe(take(1));
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 }

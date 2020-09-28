@@ -1,18 +1,16 @@
 <h1>Lista de Grupos</h1>
 
-<button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
-
-<div class="Filtros">
-  <p>Filtros</p>
-  <div>
-    <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
+<div class="form">
+  <div id="content">
+    <h4>Filtros</h4>
     <label>por nome</label>
+    <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
+    <div>
+      <label for="checkAtivo">Apenas os Ativos</label>
+      <input id="{checkAtivo}" type="checkbox" [(ngModel)]="searchAtivo" />
+    </div>
   </div>
-
-  <div>
-    <input id="{checkAtivo}" type="checkbox" [(ngModel)]="searchAtivo" />
-    <label for="checkAtivo">Apenas os Ativos</label>
-  </div>
+  <button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
 </div>
 
 <div class="card">

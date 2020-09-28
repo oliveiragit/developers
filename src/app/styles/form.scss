@@ -1,0 +1,49 @@
+h1 {
+  padding: 20px;
+  color: #fff;
+}
+.card {
+  display: flex;
+  padding: 0px 20px;
+  form {
+    display: flex;
+    flex-direction: column;
+    height: 150px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px;
+
+    input[type="text"] {
+      width: 300px;
+      margin: 5px;
+    }
+    select {
+      width: 100px;
+      border-radius: 4px;
+      background: none;
+      margin: 10px;
+    }
+  }
+  .buttons {
+    align-self: flex-end;
+
+    button {
+      background: #fff;
+      margin-right: 5px;
+      border-radius: 40px;
+      width: 150px;
+      height: 30px;
+      border-color: #0073aa;
+      color: rgb(19, 19, 19);
+      transition: background 0.2s;
+      &:hover {
+        background: #3b9eff;
+      }
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      pointer-events: all !important;
+    }
+  }
+}

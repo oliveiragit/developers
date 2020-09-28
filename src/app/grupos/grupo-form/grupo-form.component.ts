@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, PartialObserver } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { Grupo } from 'src/app/models/Grupo';
@@ -13,12 +13,13 @@ import { GruposService } from '../grupos.service';
   styleUrls: ['./grupo-form.component.scss'],
 })
 export class GrupoFormComponent implements OnInit {
-  grupos$: Observable<Grupo[]>;
   state$: Observable<object>;
-  obs$: any;
+  grupo$: Observable<Grupo>;
   err: any;
   grupoSelecionado: Grupo;
   formulario: FormGroup;
+  title: string;
+  salvarTexto: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,14 +29,17 @@ export class GrupoFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.salvarTexto = 'Salvar'
     this.state$ = this.activatedRoute.paramMap.pipe(
       map(() => window.history.state)
     );
 
     if (history.state.grupo) {
       this.grupoSelecionado = history.state.grupo;
+      this.title = 'Editar Grupo';
     } else {
       this.grupoSelecionado = new Grupo();
+      this.title = 'Novo Grupo';
     }
     this.configurarFormulario();
   }
@@ -50,15 +54,15 @@ export class GrupoFormComponent implements OnInit {
     });
   }
   onSubmit() {
+    this.salvarTexto = 'carregando...';
     const form = this.formulario.value;
-    let grupo$: Observable<Grupo>;
 
     this.grupoSelecionado = {
       ...this.grupoSelecionado,
       ...form,
     };
     if (this.grupoSelecionado.grupoId) {
-      grupo$ = this.grupoService.updateGrupo(this.grupoSelecionado).pipe(
+      this.grupo$ = this.grupoService.updateGrupo(this.grupoSelecionado).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao atualizar o grupo';
@@ -66,7 +70,7 @@ export class GrupoFormComponent implements OnInit {
         })
       );
     } else {
-      grupo$ = this.grupoService.createGrupo(this.grupoSelecionado).pipe(
+      this.grupo$ = this.grupoService.createGrupo(this.grupoSelecionado).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao criar o grupo';
@@ -74,9 +78,10 @@ export class GrupoFormComponent implements OnInit {
         })
       );
     }
-    grupo$.subscribe({ next: this.obs$ });
-    // if (!this.err) {
-    //   this.router.navigateByUrl('/grupos');
-    // }
+    this.grupo$.subscribe((t) => this.voltarClicked());
+  }
+
+  voltarClicked() {
+    this.router.navigateByUrl('/grupos');
   }
 }
