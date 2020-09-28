@@ -7,6 +7,7 @@ import { ClienteFormComponent } from './cliente-form/cliente-form.component';
 import { ClientesService } from './clientes.service';
 import { IconsModule } from '../icons/icons.module';
 
+
 @NgModule({
   declarations: [
     ClientesComponent,

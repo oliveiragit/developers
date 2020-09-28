@@ -1,12 +1,12 @@
 h1 {
-  margin-bottom: 20px;
+  padding: 12px;
   color: #fff;
 }
 .card {
   display: flex;
 
   width: 100%;
-  max-width: 1200px;
+  max-width: 1080px;
   border-radius: 5px;
   padding: 10px;
   background: #fff;
@@ -25,18 +25,18 @@ table {
     padding: 12px;
     border-bottom: 1px solid #eee;
   }
-}
 
-button {
-  border: none;
-  background: none;
-}
-#icon-edit {
-  color: gray;
-}
-#icon-check {
-  color: green;
-}
-#icon-trash2 {
-  color: red;
+  button {
+    border: none;
+    background: none;
+  }
+  #icon-edit {
+    color: gray;
+  }
+  #icon-check {
+    color: green;
+  }
+  #icon-trash2 {
+    color: red;
+  }
 }

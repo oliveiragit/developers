@@ -1,5 +1,20 @@
 <h1>Lista de Grupos</h1>
 
+<button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
+
+<div class="filtros">
+  <p>Filtros</p>
+  <div>
+    <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
+    <label>por nome</label>
+  </div>
+
+  <div>
+    <input id="{checkAtivo}" type="checkbox" [(ngModel)]="searchAtivo" />
+    <label for="checkAtivo">Apenas os Ativos</label>
+  </div>
+</div>
+
 <div class="card">
   <table *ngIf="grupos | async as grupos; else loading">
     <thead>
@@ -11,7 +26,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let grupo of grupos">
+      <tr
+        *ngFor="
+          let grupo of grupos
+            | filter: 'nome':searchString
+            | filter: 'ativo':searchAtivo;
+          let i = index
+        "
+      >
         <td>
           <button (click)="onEdit(grupo)">
             <i-feather id="icon-edit" name="edit"> </i-feather>
@@ -37,6 +59,4 @@
   <ng-template #loading>
     <span>Carregando Grupos...</span>
   </ng-template>
-
-  <div></div>
 </div>

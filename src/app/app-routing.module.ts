@@ -14,12 +14,20 @@ const routes: Routes = [
     path: 'clientes',
     loadChildren: './clientes/clientes.module#ClientesModule',
   },
+  {
+    path: 'cursos',
+    loadChildren: './cursos/cursos.module#CursosModule'
+  },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
+  ],
 })
 export class AppRoutingModule {}

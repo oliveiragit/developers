@@ -1,43 +1,56 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { tap, delay, take } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { retry, catchError, take } from 'rxjs/operators';
 
 import { Grupo } from 'src/app/models/Grupo';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GruposService {
-  constructor(private http: HttpClient) {}
+  url = `${environment.API}/TesteGrupos/`;
 
-  private readonly API = `${environment.API}/TesteGrupos`;
+  // injetando o HttpClient
+  constructor(private httpClient: HttpClient) {}
 
-  getGrupos() {
-    return this.http.get<Grupo[]>(this.API).pipe(delay(2000), tap(console.log));
+  getGrupos(): Observable<Grupo[]> {
+    return this.httpClient
+      .get<Grupo[]>(this.url)
+      .pipe(retry(2), catchError(this.handleError));
   }
 
-  loadByID(id) {
-    return this.http.get<Grupo>(`${this.API}/${id}`).pipe(take(1));
+  createGrupo(grupo: Grupo): Observable<Grupo> {
+    return this.httpClient
+      .post<Grupo>(this.url, grupo)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  private create(grupo) {
-    return this.http.post(this.API, grupo).pipe(take(1));
+  updateGrupo(grupo: Grupo): Observable<Grupo> {
+    return this.httpClient
+      .put<Grupo>(this.url, grupo)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  private update(grupo) {
-    return this.http.put(`${this.API}/${grupo.id}`, grupo).pipe(take(1));
+  deleteGrupo(grupo: Grupo) {
+    return this.httpClient
+      .delete<Grupo>(this.url)
+      .pipe(retry(1), catchError(this.handleError));
   }
 
-  save(grupo) {
-    if (grupo.id) {
-      return this.update(grupo);
+  // Manipulação de erros
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erro ocorreu no lado do client
+      errorMessage = error.error.message;
+    } else {
+      // Erro ocorreu no lado do servidor
+      errorMessage =
+        `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
     }
-    return this.create(grupo);
-  }
-
-  remove(id) {
-    return this.http.delete(`${this.API}/${id}`).pipe(take(1));
+    console.log(errorMessage);
+    return throwError(errorMessage);
   }
 }

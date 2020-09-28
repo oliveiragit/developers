@@ -31,7 +31,7 @@
           <span> {{ cliente.telefone }}</span>
         </td>
         <td>
-          <span> {{ cliente.dataCadastro }}</span>
+          <span> {{ cliente.dataCadastro | date:"MM/dd/yyyy 'às' HH:mm "}}</span>
         </td>
         <td>
           <span> {{ cliente.grupo.nome }}</span>
@@ -53,9 +53,5 @@
   <ng-template #loading>
     <span>Carregando Clientes...</span>
   </ng-template>
-  <ng-template #loadingGrupos>
-    <span>Carregando...</span>
-  </ng-template>
 
-  <div></div>
 </div>
