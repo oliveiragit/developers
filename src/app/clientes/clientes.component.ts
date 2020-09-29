@@ -58,6 +58,12 @@ export class ClientesComponent implements OnInit {
               /(\d{3})(\d{3})(\d{3})(\d{2})/,
               '$1.$2.$3-$4'
             ),
+          },
+          {
+            telefoneView: cli.telefone.replace(
+              /(\d{0})(\d{2})(\d{8,9})/,
+              '$1($2) $3'
+            ),
           }
         )
       );

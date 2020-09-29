@@ -82,9 +82,13 @@ export class ClienteFormComponent implements OnInit {
       ativo: [this.clienteSelecionado.ativo, Validators.required],
     });
   }
-  onSubmit() {
+  async onSubmit() {
     this.salvarTexto = 'carregando...';
     const form = this.formulario.value;
+
+    if (await this.checkClienteExist(this.clienteSelecionado)) {
+      return;
+    }
 
     this.clienteSelecionado = {
       ...this.clienteSelecionado,
@@ -112,6 +116,18 @@ export class ClienteFormComponent implements OnInit {
         );
     }
     this.cliente$.subscribe((t) => this.voltarClicked());
+  }
+
+  async checkClienteExist(cliente: Cliente) {
+    const cliente$ = await this.clienteService.getClientes().toPromise();
+    const _cliente = cliente$.find((c) => c.cpf == cliente.cpf);
+    if (_cliente && _cliente.clienteId != cliente.clienteId) {
+      this.salvarTexto = 'Já existe';
+      setInterval(() => (this.salvarTexto = 'Salvar'), 3000);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   voltarClicked() {

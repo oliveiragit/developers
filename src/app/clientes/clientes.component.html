@@ -48,12 +48,10 @@
           <span> {{ cliente.cpfView }}</span>
         </td>
         <td>
-          <span> {{ cliente.telefone }}</span>
+          <span> {{ cliente.telefoneView }}</span>
         </td>
         <td>
-          <span>
-            {{ cliente.dataCadastro | date: "dd/MM/yyyy 'às' HH:mm " }}</span
-          >
+          <span> {{ cliente.dataCadastro | date: "dd/MM/yyyy" }}</span>
         </td>
         <td>
           <span> {{ cliente.grupoView.nome }}</span>
