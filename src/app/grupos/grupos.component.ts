@@ -49,7 +49,7 @@ export class GruposComponent implements OnInit {
     ) {
       let deleted = this.grupoService.deleteGrupo(grupo).pipe(
         catchError((error) => {
-          this.errorHandler('Falha ao deletar!');
+          this.errorHandler('Ainda tem clientes cadastrados?');
           return EMPTY;
         })
       );
