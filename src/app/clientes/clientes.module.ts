@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClientesRoutingModule } from './clientes.routing';
 import { ClientesComponent } from './clientes.component';
@@ -15,7 +15,8 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
     ClientesRoutingModule,
     IconsModule,
     FormsModule,
-    PipesModule
+    ReactiveFormsModule,
+    PipesModule,
   ],
 
   providers: [],

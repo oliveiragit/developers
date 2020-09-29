@@ -14,6 +14,7 @@
 </div>
 
 <div class="card">
+  <div class="catchError" *ngIf="!err; else erro"></div>
   <table *ngIf="clientes | async as clientes; else loading">
     <thead>
       <tr>
@@ -44,18 +45,18 @@
           <span> {{ cliente.nome }}</span>
         </td>
         <td>
-          <span> {{ cliente.cpf }}</span>
+          <span> {{ cliente.cpfView }}</span>
         </td>
         <td>
           <span> {{ cliente.telefone }}</span>
         </td>
         <td>
           <span>
-            {{ cliente.dataCadastro | date: "MM/dd/yyyy 'às' HH:mm " }}</span
+            {{ cliente.dataCadastro | date: "dd/MM/yyyy 'às' HH:mm " }}</span
           >
         </td>
         <td>
-          <span> {{ cliente.grupo.nome }}</span>
+          <span> {{ cliente.grupoView.nome }}</span>
         </td>
         <td>
           <span *ngIf="cliente.ativo">
@@ -68,13 +69,18 @@
         <td>
           <button (click)="onDelete(cliente)">
             <i-feather id="icon-trash2" name="trash2"></i-feather>
+            <div class="catchError" *ngIf="!err; else erro"></div>
           </button>
         </td>
       </tr>
     </tbody>
   </table>
-
-  <ng-template #loading>
-    <span>Carregando Clientes...</span>
-  </ng-template>
 </div>
+
+<ng-template #erro>
+  <span>Erro! {{ err }}</span>
+</ng-template>
+
+<ng-template #loading>
+  <span>Carregando Clientes...</span>
+</ng-template>

@@ -12,7 +12,6 @@ import { environment } from 'src/environments/environment';
 export class ClientesService {
   url = `${environment.API}/TesteClientes/`;
 
-  // injetando o HttpClient
   constructor(private httpClient: HttpClient) {}
 
   getClientes(): Observable<Cliente[]> {
@@ -35,7 +34,9 @@ export class ClientesService {
 
   deleteCliente(cliente: Cliente) {
     return this.httpClient
-      .delete<Cliente>(this.url)
+      .delete<Cliente>(this.url, {
+        params: { clienteId: cliente.clienteId.toString() },
+      })
       .pipe(retry(1), catchError(this.handleError));
   }
 

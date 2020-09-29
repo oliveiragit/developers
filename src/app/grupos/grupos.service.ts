@@ -35,7 +35,10 @@ export class GruposService {
 
   deleteGrupo(grupo: Grupo) {
     return this.httpClient
-      .delete<Grupo>(this.url)
+      .delete<Grupo>(this.url, {
+        params: { grupoId: grupo.grupoId.toString()
+        },
+      })
       .pipe(retry(1), catchError(this.handleError));
   }
 

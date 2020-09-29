@@ -14,6 +14,7 @@ import { GruposService } from './grupos.service';
 export class GruposComponent implements OnInit {
   searchAtivo: boolean;
   searchString: string;
+  err: any;
 
   grupos: Observable<Grupo[]>;
   grupoSelecionado: any;
@@ -28,7 +29,7 @@ export class GruposComponent implements OnInit {
   ngOnInit(): void {
     this.grupos = this.grupoService.getGrupos().pipe(
       catchError((error) => {
-        console.error(error);
+        this.errorHandler('Falha ao buscar os grupos!');
         return EMPTY;
       })
     );
@@ -43,12 +44,26 @@ export class GruposComponent implements OnInit {
   }
 
   onDelete(grupo: Grupo) {
-    if (confirm(`O grupo ${grupo.nome} será apagado. Tem certeza?`)) {
-      this.grupoService.deleteGrupo(grupo).subscribe(this.grupoSelecionado);
+    if (
+      confirm(`O grupo ${grupo.nome.toUpperCase()} será apagado. Tem certeza?`)
+    ) {
+      let deleted = this.grupoService.deleteGrupo(grupo).pipe(
+        catchError((error) => {
+          this.errorHandler('Falha ao deletar!');
+          return EMPTY;
+        })
+      );
+      deleted.subscribe((s) => this.ngOnInit());
     }
   }
 
   novoGrupo() {
     this.router.navigate(['form'], { relativeTo: this.route });
+  }
+  errorHandler(message) {
+    this.err = message;
+    setTimeout(() => {
+      this.err = null;
+    }, 4000);
   }
 }
