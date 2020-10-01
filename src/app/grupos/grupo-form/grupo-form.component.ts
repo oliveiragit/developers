@@ -14,13 +14,12 @@ import { GruposService } from '../grupos.service';
   styleUrls: ['./grupo-form.component.scss'],
 })
 export class GrupoFormComponent implements OnInit {
-  state$: Observable<object>;
   grupo$: Observable<Grupo>;
 
   grupos: Observable<Grupo[]>;
-  grupoSelecionado: Grupo;
+  grupo: Grupo;
 
-  formulario: FormGroup;
+  form: FormGroup;
   title: string;
 
   salvarTexto: string;
@@ -35,45 +34,40 @@ export class GrupoFormComponent implements OnInit {
 
   ngOnInit() {
     this.salvarTexto = 'Salvar';
-    this.state$ = this.activatedRoute.paramMap.pipe(
-      map(() => window.history.state)
-    );
+    this.activatedRoute.paramMap.pipe(map(() => window.history.state));
 
     if (history.state.grupo) {
-      this.grupoSelecionado = history.state.grupo;
+      this.grupo = history.state.grupo;
       this.title = 'Editar Grupo';
     } else {
-      this.grupoSelecionado = new Grupo();
+      this.grupo = new Grupo();
       this.title = 'Novo Grupo';
     }
-    this.configurarFormulario();
+    this.configForm();
   }
 
-  configurarFormulario() {
-    this.formulario = this.formBuilder.group({
-      nome: [
-        this.grupoSelecionado.nome,
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ativo: [this.grupoSelecionado.ativo, Validators.required],
+  configForm() {
+    this.form = this.formBuilder.group({
+      nome: [this.grupo.nome, [Validators.required, Validators.minLength(3)]],
+      ativo: [this.grupo.ativo, Validators.required],
     });
   }
   async onSubmit() {
     this.salvarTexto = 'carregando...';
 
-    const form = this.formulario.value;
+    const form = this.form.value;
 
-    this.grupoSelecionado = {
-      ...this.grupoSelecionado,
+    this.grupo = {
+      ...this.grupo,
       ...form,
     };
 
-    if (await this.checkGroupExist(this.grupoSelecionado)) {
+    if (await this.checkGroupExist(this.grupo)) {
       return;
     }
 
-    if (this.grupoSelecionado.grupoId) {
-      this.grupo$ = this.grupoService.updateGrupo(this.grupoSelecionado).pipe(
+    if (this.grupo.grupoId) {
+      this.grupo$ = this.grupoService.updateGrupo(this.grupo).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao atualizar o grupo';
@@ -81,7 +75,7 @@ export class GrupoFormComponent implements OnInit {
         })
       );
     } else {
-      this.grupo$ = this.grupoService.createGrupo(this.grupoSelecionado).pipe(
+      this.grupo$ = this.grupoService.createGrupo(this.grupo).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao criar o grupo';
@@ -98,7 +92,7 @@ export class GrupoFormComponent implements OnInit {
     );
     if (_grupo && _grupo.grupoId != grupo.grupoId) {
       this.salvarTexto = 'Já existe';
-      setInterval(() => (this.salvarTexto = 'Salvar'), 3000);
+      setTimeout(() => (this.salvarTexto = 'Salvar'), 3000);
       return true;
     } else {
       return false;

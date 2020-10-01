@@ -5,7 +5,7 @@
     method="post"
     (ngSubmit)="onSubmit()"
     (keydown.enter)="$event.preventDefault()"
-    [formGroup]="formulario"
+    [formGroup]="form"
   >
     <div class="form-group">
       <label for="nome">Nome</label>
@@ -52,8 +52,8 @@
         class="form-control"
         formControlName="ativo"
       >
-        <option value="true">Ativo</option>
-        <option value="false">Inativo</option>
+        <option [ngValue]="true">Ativo</option>
+        <option [ngValue]="false">Inativo</option>
       </select>
     </div>
 
@@ -74,7 +74,7 @@
 
     <div class="buttons">
       <button (click)="voltarClicked()">Voltar</button>
-      <button type="submit" [disabled]="formulario.invalid">
+      <button type="submit" [disabled]="form.invalid">
         {{ salvarTexto }}
       </button>
     </div>

@@ -15,7 +15,7 @@
 
 <div class="card">
   <div class="catchError" *ngIf="!err; else erro"></div>
-  <table *ngIf="clientes | async as clientes; else loading">
+  <table *ngIf="clientes$ | async as clientes; else loading">
     <thead>
       <tr>
         <th></th>
@@ -45,16 +45,16 @@
           <span> {{ cliente.nome }}</span>
         </td>
         <td>
-          <span> {{ cliente.cpfView }}</span>
+          <span> {{ cliente.cpf }}</span>
         </td>
         <td>
-          <span> {{ cliente.telefoneView }}</span>
+          <span> {{ cliente.telefone }}</span>
         </td>
         <td>
           <span> {{ cliente.dataCadastro | date: "dd/MM/yyyy" }}</span>
         </td>
         <td>
-          <span> {{ cliente.grupoView.nome }}</span>
+          <span> {{ cliente.grupoId }}</span>
         </td>
         <td>
           <span *ngIf="cliente.ativo">

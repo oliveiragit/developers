@@ -18,8 +18,8 @@ export class ClienteFormComponent implements OnInit {
   state$: Observable<object>;
   cliente$: Observable<Cliente>;
   err: any;
-  clienteSelecionado: Cliente;
-  formulario: FormGroup;
+  cliente: Cliente;
+  form: FormGroup;
   title: string;
   salvarTexto: string;
   grupos$: Observable<Grupo[]>;
@@ -27,9 +27,9 @@ export class ClienteFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private clienteService: ClientesService,
+    private grupoService: GruposService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private grupoService: GruposService
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -46,23 +46,20 @@ export class ClienteFormComponent implements OnInit {
       map(() => window.history.state)
     );
     if (history.state.cliente) {
-      this.clienteSelecionado = history.state.cliente;
+      this.cliente = history.state.cliente;
       this.title = 'Editar Cliente';
     } else {
-      this.clienteSelecionado = new Cliente();
+      this.cliente = new Cliente();
       this.title = 'Novo Cliente';
     }
-    this.configurarFormulario();
+    this.configForm();
   }
 
-  configurarFormulario() {
-    this.formulario = this.formBuilder.group({
-      nome: [
-        this.clienteSelecionado.nome,
-        [Validators.required, Validators.minLength(3)],
-      ],
+  configForm() {
+    this.form = this.formBuilder.group({
+      nome: [this.cliente.nome, [Validators.required, Validators.minLength(3)]],
       cpf: [
-        this.clienteSelecionado.cpf,
+        this.cliente.cpf,
         [
           Validators.required,
           Validators.minLength(11),
@@ -71,49 +68,45 @@ export class ClienteFormComponent implements OnInit {
         ],
       ],
       telefone: [
-        this.clienteSelecionado.telefone,
+        this.cliente.telefone,
         [
           Validators.minLength(10),
           Validators.maxLength(11),
           Validators.pattern('^[0-9]*$'),
         ],
       ],
-      grupoId: [this.clienteSelecionado.grupoId, Validators.required],
-      ativo: [this.clienteSelecionado.ativo, Validators.required],
+      grupoId: [this.cliente.grupoId, Validators.required],
+      ativo: this.cliente.ativo,
     });
   }
   async onSubmit() {
     this.salvarTexto = 'carregando...';
-    const form = this.formulario.value;
+    const form: Cliente = this.form.value;
 
-    if (await this.checkClienteExist(this.clienteSelecionado)) {
+    if (await this.checkClienteExist(this.cliente)) {
       return;
     }
 
-    this.clienteSelecionado = {
-      ...this.clienteSelecionado,
+    this.cliente = {
+      ...this.cliente,
       ...form,
     };
-    if (this.clienteSelecionado.clienteId) {
-      this.cliente$ = this.clienteService
-        .updateCliente(this.clienteSelecionado)
-        .pipe(
-          catchError((error) => {
-            console.error(error);
-            this.err = 'Falha ao atualizar o cliente';
-            return EMPTY;
-          })
-        );
+    if (this.cliente.clienteId) {
+      this.cliente$ = this.clienteService.updateCliente(this.cliente).pipe(
+        catchError((error) => {
+          console.error(error);
+          this.err = 'Falha ao atualizar o cliente';
+          return EMPTY;
+        })
+      );
     } else {
-      this.cliente$ = this.clienteService
-        .createCliente(this.clienteSelecionado)
-        .pipe(
-          catchError((error) => {
-            console.error(error);
-            this.err = 'Falha ao criar o cliente';
-            return EMPTY;
-          })
-        );
+      this.cliente$ = this.clienteService.createCliente(this.cliente).pipe(
+        catchError((error) => {
+          console.error(error);
+          this.err = 'Falha ao criar o cliente';
+          return EMPTY;
+        })
+      );
     }
     this.cliente$.subscribe((t) => this.voltarClicked());
   }
@@ -123,7 +116,7 @@ export class ClienteFormComponent implements OnInit {
     const _cliente = cliente$.find((c) => c.cpf == cliente.cpf);
     if (_cliente && _cliente.clienteId != cliente.clienteId) {
       this.salvarTexto = 'Já existe';
-      setInterval(() => (this.salvarTexto = 'Salvar'), 3000);
+      setTimeout(() => (this.salvarTexto = 'Salvar'), 3000);
       return true;
     } else {
       return false;

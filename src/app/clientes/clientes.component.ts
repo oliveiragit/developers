@@ -14,10 +14,10 @@ import { ClientesService } from './clientes.service';
   styleUrls: ['./clientes.component.scss'],
 })
 export class ClientesComponent implements OnInit {
-  clientes: Observable<any[]>;
+  clientes$: Observable<Cliente[]>;
+  cliente: Cliente;
   searchString: string;
   searchAtivo: boolean;
-  clienteSelecionado;
   err: any;
 
   constructor(
@@ -31,7 +31,7 @@ export class ClientesComponent implements OnInit {
     this.iniciarClientes();
   }
   iniciarClientes() {
-    const clientes$ = this.clienteService.getClientes().pipe(
+    const clis$ = this.clienteService.getClientes().pipe(
       catchError((error) => {
         this.errorHandler('Falha ao carregar!');
         return EMPTY;
@@ -51,7 +51,9 @@ export class ClientesComponent implements OnInit {
           {},
           cli,
           {
-            grupoView: grupos.find((gru: Grupo) => gru.grupoId === cli.grupoId),
+            grupoView: grupos.find((gru: Grupo) => {
+              return gru.grupoId === cli.grupoId;
+            }),
           },
           {
             cpfView: cli.cpf.replace(
@@ -68,7 +70,7 @@ export class ClientesComponent implements OnInit {
         )
       );
 
-    this.clientes = combineLatest([clientes$, grupos$]).pipe(map(mergeById));
+    this.clientes$ = combineLatest([clis$, grupos$]).pipe(map(mergeById));
   }
 
   onEdit(cliente: Cliente) {
@@ -87,7 +89,7 @@ export class ClientesComponent implements OnInit {
     ) {
       let deleted = this.clienteService.deleteCliente(cliente).pipe(
         catchError((error) => {
-          this.errorHandler('Falha ao deletar!');
+          this.errorHandler('Falha ao remover!');
           return EMPTY;
         })
       );
@@ -98,7 +100,7 @@ export class ClientesComponent implements OnInit {
   novoCliente() {
     this.router.navigate(['form'], { relativeTo: this.route });
   }
-  errorHandler(message) {
+  errorHandler(message: string) {
     this.err = message;
     setTimeout(() => {
       this.err = null;

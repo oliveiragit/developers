@@ -1,7 +1,7 @@
 <h1>{{ title }}</h1>
 
 <div class="card">
-  <form method="post" (ngSubmit)="onSubmit()" [formGroup]="formulario">
+  <form method="post" (ngSubmit)="onSubmit()" [formGroup]="form">
     <div class="form-group">
       <label for="nome">Nome</label>
       <input
@@ -23,13 +23,15 @@
         class="form-control"
         formControlName="ativo"
       >
-        <option value="true">Ativo</option>
-        <option value="false">Inativo</option>
+        <option [ngValue]="true">Ativo</option>
+        <option [ngValue]="false">Inativo</option>
       </select>
     </div>
     <div class="buttons">
       <button (click)="voltarClicked()">Voltar</button>
-      <button type="submit" [disabled]="formulario.invalid">{{salvarTexto}}</button>
+      <button type="submit" [disabled]="form.invalid">
+        {{ salvarTexto }}
+      </button>
     </div>
   </form>
 </div>
