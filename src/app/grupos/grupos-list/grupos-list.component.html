@@ -1,62 +1,70 @@
-<h1>Lista de Grupos</h1>
-
-<div class="form">
-  <div id="content">
-    <h4>Filtros</h4>
-    <label>por nome</label>
-    <input id="{inputNome}" type="text" [(ngModel)]="searchString" />
-    <div>
-      <label for="checkAtivo">Apenas os Ativos</label>
-      <input id="{checkAtivo}" type="checkbox" [(ngModel)]="searchAtivo" />
+<div class="content">
+  <h1>Lista de Grupos</h1>
+  <section>
+    <div class="form">
+      <h4>Filtros</h4>
+      <input
+        class="form-control"
+        type="text"
+        placeholder=" por nome"
+        [(ngModel)]="searchString"
+      />
+      <div>
+        <label for="checkAtivo">Apenas os Ativos</label>
+        <input type="checkbox" [(ngModel)]="searchAtivo" />
+      </div>
     </div>
-  </div>
-  <button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
-</div>
+    <button id="button-novo" (click)="novoGrupo()">Novo Grupo</button>
+  </section>
 
-<div class="card">
-  <div class="catchError" *ngIf="!err; else erro"></div>
-  <table *ngIf="grupos | async as grupos; else loading">
-    <thead>
-      <tr>
-        <th></th>
-        <th>NOME</th>
-        <th>ATIVO</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="
-          let grupo of grupos
-            | filter: 'nome':searchString
-            | filter: 'ativo':searchAtivo
-        "
-      >
-        <td>
-          <button (click)="onEdit(grupo)">
-            <i-feather id="icon-edit" name="edit"> </i-feather>
-          </button>
-        </td>
-        <td>
-          <span> {{ grupo.nome }}</span>
-        </td>
-        <td>
-          <span *ngIf="grupo.ativo">
-            <i-feather id="icon-check" name="check-circle"></i-feather>
-          </span>
-          <span *ngIf="!grupo.ativo">
-            <i-feather id="icon-xcircle" name="x-circle"></i-feather>
-          </span>
-        </td>
-        <td>
-          <button (click)="onDelete(grupo)">
-            <i-feather id="icon-trash2" name="trash2"></i-feather>
-          </button>
-          <div class="catchError" *ngIf="!err; else erro"></div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table-card">
+    <div class="catchError" *ngIf="!err; else erro"></div>
+    <table
+      class="table-responsive-sm table-hover"
+      *ngIf="grupos | async as grupos; else loading"
+    >
+      <thead>
+        <tr>
+          <th></th>
+          <th>NOME</th>
+          <th>ATIVO</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let grupo of grupos
+              | filter: 'nome':searchString
+              | filter: 'ativo':searchAtivo
+          "
+        >
+          <td>
+            <button (click)="onEdit(grupo)">
+              <i-feather id="icon-edit" name="edit"> </i-feather>
+            </button>
+          </td>
+          <td>
+            <span> {{ grupo.nome }}</span>
+          </td>
+          <td>
+            <span *ngIf="grupo.ativo">
+              <i-feather id="icon-check" name="check-circle"></i-feather>
+            </span>
+            <span *ngIf="!grupo.ativo">
+              <i-feather id="icon-xcircle" name="x-circle"></i-feather>
+            </span>
+          </td>
+          <td>
+            <button (click)="onDelete(grupo)">
+              <i-feather id="icon-trash2" name="trash2"></i-feather>
+            </button>
+            <div class="catchError" *ngIf="!err; else erro"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <ng-template #loading>

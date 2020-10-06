@@ -20,7 +20,7 @@ export class ClientesFormComponent implements OnInit {
   cliente: Cliente;
   form: FormGroup;
   title: string;
-  salvarTexto: string;
+  loading: boolean;
   err: any;
 
   constructor(
@@ -31,11 +31,11 @@ export class ClientesFormComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.salvarTexto = 'Salvar';
+  ngOnInit(): void {
+    this.loading = false;
 
-    //grupos
-    let grupos$ = this.grupoService.getGrupos().pipe(
+    // grupos
+    const grupos$ = this.grupoService.getGrupos().pipe(
       catchError((error) => {
         console.error(error);
         this.err = 'Falha ao atualizar o cliente';
@@ -44,7 +44,7 @@ export class ClientesFormComponent implements OnInit {
     );
     grupos$.forEach((grupos) => (this.grupos = grupos));
 
-    //clientes recebido
+    // clientes recebido
     this.activatedRoute.paramMap.pipe(map(() => window.history.state));
     if (history.state.cliente) {
       this.cliente = history.state.cliente;
@@ -58,7 +58,7 @@ export class ClientesFormComponent implements OnInit {
     this.configForm();
   }
 
-  configForm() {
+  configForm(): void {
     this.form = this.formBuilder.group({
       nome: [this.cliente.nome, [Validators.required, Validators.minLength(3)]],
       cpf: [
@@ -82,8 +82,8 @@ export class ClientesFormComponent implements OnInit {
       ativo: this.cliente.ativo,
     });
   }
-  async onSubmit() {
-    this.salvarTexto = 'carregando...';
+  async onSubmit(): Promise<void> {
+    this.loading = true;
     const form: Cliente = this.form.value;
 
     this.cliente = {
@@ -122,20 +122,18 @@ export class ClientesFormComponent implements OnInit {
     }
   }
 
-  async checkClienteExist(cliente: Cliente) {
+  async checkClienteExist(cliente: Cliente): Promise<boolean> {
     const clientes = await this.clienteService.getClientes().toPromise();
-    const _cliente = clientes.find((c) => c.cpf == cliente.cpf);
+    const cli = clientes.find((c) => c.cpf === cliente.cpf);
 
-    if (_cliente && _cliente.clienteId != cliente.clienteId) {
-      this.salvarTexto = 'Já CPF em uso existe';
-      setTimeout(() => (this.salvarTexto = 'Salvar'), 3000);
+    if (cli && cli.clienteId !== cliente.clienteId) {
+      this.loading = false;
       return true;
     } else {
       return false;
     }
   }
-
-  voltarClicked() {
+  voltarClicked(): void {
     this.router.navigateByUrl('/clientes');
   }
 }

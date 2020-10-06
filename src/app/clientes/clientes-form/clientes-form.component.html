@@ -57,7 +57,7 @@
       </select>
     </div>
 
-    <div class="form-group selectors" *ngIf="grupos; else loading">
+    <div class="form-group selectors" *ngIf="grupos; else spinner">
       <label for="grupos">Grupo</label>
       <select
         type="text"
@@ -74,16 +74,20 @@
 
     <div class="buttons">
       <button (click)="voltarClicked()">Voltar</button>
+
       <button type="submit" [disabled]="form.invalid">
-        {{ salvarTexto }}
+        <span>Salvar</span>
       </button>
+      <div *ngIf="!loading; else spinner"></div>
     </div>
     <div *ngIf="!err; else error">{{ err }}</div>
   </form>
 </div>
 
-<ng-template #loading>
-  <span>Carregando...</span>
+<ng-template #spinner>
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
 </ng-template>
 
 <ng-template #error>

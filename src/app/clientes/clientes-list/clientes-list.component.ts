@@ -7,6 +7,7 @@ import { Cliente } from 'src/app/clientes/shared/Cliente';
 import { GruposService } from 'src/app/grupos/shared/grupos.service';
 import { Grupo } from 'src/app/grupos/shared/Grupo';
 import { ClientesService } from '../shared/clientes.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-clientes-list',
@@ -45,7 +46,8 @@ export class ClientesListComponent implements OnInit {
         return EMPTY;
       })
     );
-
+    clis$.forEach((c) => console.log(c));
+    grupos$.forEach((g) => console.log(g));
     const mergeById = ([clientes, grupos]) =>
       clientes.map((cli: Cliente) =>
         Object.assign(
@@ -63,10 +65,7 @@ export class ClientesListComponent implements OnInit {
             ),
           },
           {
-            telefoneView: cli.telefone.replace(
-              /(\d{0})(\d{2})(\d{8,9})/,
-              '$1($2) $3'
-            ),
+            telefoneView: cli.telefone,
           }
         )
       );
