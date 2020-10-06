@@ -12,7 +12,11 @@
       />
       <div>
         <label for="checkAtivo">Apenas os Ativos</label>
-        <input type="checkbox" [(ngModel)]="searchAtivo" />
+        <input
+          class="form-control"
+          type="checkbox"
+          [(ngModel)]="searchAtivo"
+        />
       </div>
     </div>
     <button id="button-novo" (click)="novoCliente()">Novo Cliente</button>
@@ -53,10 +57,10 @@
             <span> {{ cliente.nome }}</span>
           </td>
           <td>
-            <span> {{ cliente.cpf }}</span>
+            <span> {{ cliente.cpf | mask: "CPF_CNPJ" }}</span>
           </td>
           <td>
-            <span> {{ cliente.telefone }}</span>
+            <span> {{ cliente.telefone | mask: "(00) 0000-0000" }}</span>
           </td>
           <td>
             <span> {{ cliente.dataCadastro | date: "dd/MM/yyyy" }}</span>

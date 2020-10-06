@@ -1,28 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-// import { TooltipModule } from 'ngx-bootstrap/tooltip';
-// import { ModalModule } from 'ngx-bootstrap/modal';
-// import { TabsModule } from 'ngx-bootstrap/tabs';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { FilterPipe } from './pipes/filter.pipe';
 
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+
 @NgModule({
   declarations: [FilterPipe],
-  imports: [
-    CommonModule,
-    // BsDropdownModule.forRoot(),
-    // TooltipModule.forRoot(),
-    // ModalModule.forRoot(),
-    // TabsModule.forRoot(),
-  ],
-  exports: [
-    FilterPipe,
-    // TabsModule,
-    // BsDropdownModule,
-    // TooltipModule,
-    // ModalModule,
-  ],
+  imports: [CommonModule, ModalModule.forRoot(), NgxMaskModule.forRoot()],
+  exports: [FilterPipe, ModalModule, NgxMaskModule],
 })
 export class SharedModule {}

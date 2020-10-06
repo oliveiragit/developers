@@ -7,7 +7,6 @@ import { Cliente } from 'src/app/clientes/shared/Cliente';
 import { GruposService } from 'src/app/grupos/shared/grupos.service';
 import { Grupo } from 'src/app/grupos/shared/Grupo';
 import { ClientesService } from '../shared/clientes.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-clientes-list',
@@ -32,7 +31,7 @@ export class ClientesListComponent implements OnInit {
     this.iniciarClientes();
   }
 
-  iniciarClientes() {
+  iniciarClientes(): void {
     const clis$ = this.clienteService.getClientes().pipe(
       catchError((error) => {
         this.errorHandler('Falha ao carregar!');
@@ -50,30 +49,17 @@ export class ClientesListComponent implements OnInit {
     grupos$.forEach((g) => console.log(g));
     const mergeById = ([clientes, grupos]) =>
       clientes.map((cli: Cliente) =>
-        Object.assign(
-          {},
-          cli,
-          {
-            grupoView: grupos.find((gru: Grupo) => {
-              return gru.grupoId === cli.grupoId;
-            }),
-          },
-          {
-            cpfView: cli.cpf.replace(
-              /(\d{3})(\d{3})(\d{3})(\d{2})/,
-              '$1.$2.$3-$4'
-            ),
-          },
-          {
-            telefoneView: cli.telefone,
-          }
-        )
+        Object.assign({}, cli, {
+          grupoView: grupos.find((gru: Grupo) => {
+            return gru.grupoId === cli.grupoId;
+          }),
+        })
       );
 
     this.clientes$ = combineLatest([clis$, grupos$]).pipe(map(mergeById));
   }
 
-  onEdit(cliente: Cliente) {
+  onEdit(cliente: Cliente): void {
     this.router.navigate(['']);
     this.router.navigate(['editar', cliente.clienteId], {
       state: { cliente },
@@ -81,13 +67,13 @@ export class ClientesListComponent implements OnInit {
     });
   }
 
-  onDelete(cliente: Cliente) {
+  onDelete(cliente: Cliente): void {
     if (
       confirm(
         `O cliente ${cliente.nome.toUpperCase()} será apagado. Tem certeza?`
       )
     ) {
-      let deleted = this.clienteService.deleteCliente(cliente).pipe(
+      const deleted = this.clienteService.deleteCliente(cliente).pipe(
         catchError((error) => {
           this.errorHandler('Falha ao remover!');
           return EMPTY;
@@ -97,10 +83,10 @@ export class ClientesListComponent implements OnInit {
     }
   }
 
-  novoCliente() {
+  novoCliente(): void {
     this.router.navigate(['form'], { relativeTo: this.route });
   }
-  errorHandler(message: string) {
+  errorHandler(message: string): void {
     this.err = message;
     setTimeout(() => {
       this.err = null;
