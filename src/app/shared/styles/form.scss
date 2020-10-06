@@ -4,23 +4,25 @@ h1 {
 }
 .card {
   display: flex;
-  padding: 0px 20px;
+  padding: 0px 10px;
+  max-width:450px;
   form {
     display: flex;
     flex-direction: column;
+    min-width: 100%;
     background: #fff;
     border-radius: 5px;
-    padding: 20px;
+    padding:10px;
 
     input[type="text"] {
-      width: 300px;
-      margin: 5px;
+      width: 100%;
+      border-radius: 8px;
+      height: 30px;
     }
     select {
       width: 100px;
       border-radius: 4px;
       background: none;
-      margin: 10px;
     }
   }
   .buttons {
@@ -45,4 +47,15 @@ h1 {
       pointer-events: all !important;
     }
   }
+}
+.form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  margin: 10px;
+}
+.selectors {
+  max-width: 40%;
 }

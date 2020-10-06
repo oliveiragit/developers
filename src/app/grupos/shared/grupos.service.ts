@@ -3,39 +3,40 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError, take } from 'rxjs/operators';
 
-import { Cliente } from 'src/app/models/Cliente';
+import { Grupo } from './Grupo';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ClientesService {
-  url = `${environment.API}/TesteClientes/`;
+export class GruposService {
+  url = `${environment.API}/TesteGrupos/`;
 
+  // injetando o HttpClient
   constructor(private httpClient: HttpClient) {}
 
-  getClientes(): Observable<Cliente[]> {
+  getGrupos(): Observable<Grupo[]> {
     return this.httpClient
-      .get<Cliente[]>(this.url)
+      .get<Grupo[]>(this.url)
       .pipe(retry(2), catchError(this.handleError));
   }
 
-  createCliente(cliente: Cliente): Observable<Cliente> {
+  createGrupo(grupo: Grupo): Observable<Grupo> {
     return this.httpClient
-      .post<Cliente>(this.url, cliente)
+      .post<Grupo>(this.url, grupo)
       .pipe(retry(1), catchError(this.handleError));
   }
 
-  updateCliente(cliente: Cliente): Observable<Cliente> {
+  updateGrupo(grupo: Grupo): Observable<Grupo> {
     return this.httpClient
-      .put<Cliente>(this.url, cliente)
+      .put<Grupo>(this.url, grupo)
       .pipe(retry(1), catchError(this.handleError));
   }
 
-  deleteCliente(cliente: Cliente) {
+  deleteGrupo(grupo: Grupo) {
     return this.httpClient
-      .delete<Cliente>(this.url, {
-        params: { clienteId: cliente.clienteId.toString() },
+      .delete<Grupo>(this.url, {
+        params: { grupoId: grupo.grupoId.toString() },
       })
       .pipe(retry(1), catchError(this.handleError));
   }

@@ -43,10 +43,10 @@
       />
     </div>
 
-    <div class="form-group">
+    <div class="form-group selectors">
       <label for="ativo">Ativo</label>
       <select
-        type="ativo"
+        type="text"
         id="ativo"
         name="ativo"
         class="form-control"
@@ -57,10 +57,10 @@
       </select>
     </div>
 
-    <div class="form-group" *ngIf="grupos$ | async as grupos; else loading">
+    <div class="form-group selectors" *ngIf="grupos; else loading">
       <label for="grupos">Grupo</label>
       <select
-        type="grupoId"
+        type="text"
         id="grupoId"
         name="grupoId"
         class="form-control"
@@ -78,6 +78,7 @@
         {{ salvarTexto }}
       </button>
     </div>
+    <div *ngIf="!err; else error">{{ err }}</div>
   </form>
 </div>
 
@@ -85,6 +86,6 @@
   <span>Carregando...</span>
 </ng-template>
 
-<ng-template #erro>
+<ng-template #error>
   <span>{{ err }}</span>
 </ng-template>

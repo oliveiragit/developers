@@ -3,15 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Grupo } from 'src/app/models/Grupo';
-import { GruposService } from './grupos.service';
+import { Grupo } from '../shared/Grupo';
+import { GruposService } from '../shared/grupos.service';
 
 @Component({
-  selector: 'app-grupos',
-  templateUrl: './grupos.component.html',
-  styleUrls: ['./grupos.component.scss'],
+  selector: 'app-grupos-list',
+  templateUrl: './grupos-list.component.html',
+  styleUrls: ['./grupos-list.component.scss'],
 })
-export class GruposComponent implements OnInit {
+export class GruposListComponent implements OnInit {
   searchAtivo: boolean;
   searchString: string;
   err: any;

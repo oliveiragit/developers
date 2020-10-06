@@ -3,17 +3,17 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EMPTY, Observable, combineLatest } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { Cliente } from 'src/app/models/Cliente';
-import { GruposService } from '../grupos/grupos.service';
-import { Grupo } from '../models/Grupo';
-import { ClientesService } from './clientes.service';
+import { Cliente } from 'src/app/clientes/shared/Cliente';
+import { GruposService } from 'src/app/grupos/shared/grupos.service';
+import { Grupo } from 'src/app/grupos/shared/Grupo';
+import { ClientesService } from '../shared/clientes.service';
 
 @Component({
-  selector: 'app-clientes',
-  templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.scss'],
+  selector: 'app-clientes-list',
+  templateUrl: './clientes-list.component.html',
+  styleUrls: ['./clientes-list.component.scss'],
 })
-export class ClientesComponent implements OnInit {
+export class ClientesListComponent implements OnInit {
   clientes$: Observable<Cliente[]>;
   cliente: Cliente;
   searchString: string;
@@ -30,6 +30,7 @@ export class ClientesComponent implements OnInit {
   ngOnInit(): void {
     this.iniciarClientes();
   }
+
   iniciarClientes() {
     const clis$ = this.clienteService.getClientes().pipe(
       catchError((error) => {

@@ -1,29 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Check } from 'angular-feather/icons';
-import { Observable, EMPTY, PartialObserver } from 'rxjs';
-import { map, catchError, filter, find } from 'rxjs/operators';
+import { Observable, EMPTY } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
-import { Grupo } from 'src/app/models/Grupo';
-import { GruposService } from '../grupos.service';
+import { Grupo } from '../shared/Grupo';
+import { GruposService } from '../shared/grupos.service';
 
 @Component({
-  selector: 'app-grupo-form',
-  templateUrl: './grupo-form.component.html',
-  styleUrls: ['./grupo-form.component.scss'],
+  selector: 'app-grupos-form',
+  templateUrl: './grupos-form.component.html',
+  styleUrls: ['./grupos-form.component.scss'],
 })
-export class GrupoFormComponent implements OnInit {
-  grupo$: Observable<Grupo>;
-
-  grupos: Observable<Grupo[]>;
-  grupo: Grupo;
-
+export class GruposFormComponent implements OnInit {
   form: FormGroup;
+  grupos$: Observable<Grupo>;
+  grupo: Grupo;
   title: string;
-
   salvarTexto: string;
-  obs$: any;
   err: any;
   constructor(
     private formBuilder: FormBuilder,
@@ -67,7 +61,7 @@ export class GrupoFormComponent implements OnInit {
     }
 
     if (this.grupo.grupoId) {
-      this.grupo$ = this.grupoService.updateGrupo(this.grupo).pipe(
+      this.grupos$ = this.grupoService.updateGrupo(this.grupo).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao atualizar o grupo';
@@ -75,7 +69,7 @@ export class GrupoFormComponent implements OnInit {
         })
       );
     } else {
-      this.grupo$ = this.grupoService.createGrupo(this.grupo).pipe(
+      this.grupos$ = this.grupoService.createGrupo(this.grupo).pipe(
         catchError((error) => {
           console.error(error);
           this.err = 'Falha ao criar o grupo';
@@ -83,7 +77,7 @@ export class GrupoFormComponent implements OnInit {
         })
       );
     }
-    this.grupo$.subscribe((t) => this.voltarClicked());
+    this.grupos$.subscribe((t) => this.voltarClicked());
   }
   async checkGroupExist(grupo: Grupo) {
     const grupo$ = await this.grupoService.getGrupos().toPromise();

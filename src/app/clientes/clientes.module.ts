@@ -3,20 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ClientesRoutingModule } from './clientes.routing';
-import { ClientesComponent } from './clientes.component';
-import { ClienteFormComponent } from './cliente-form/cliente-form.component';
-import { IconsModule } from '../icons/icons.module';
-import { PipesModule } from 'src/app/pipes/pipes.module';
+import { ClientesListComponent } from './clientes-list/clientes-list.component';
+import { ClientesFormComponent } from './clientes-form/clientes-form.component';
+import { IconsModule } from '../shared/icons/icons.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-  declarations: [ClientesComponent, ClienteFormComponent],
+  declarations: [ClientesListComponent, ClientesFormComponent],
   imports: [
     CommonModule,
     ClientesRoutingModule,
     IconsModule,
     FormsModule,
     ReactiveFormsModule,
-    PipesModule,
+    SharedModule,
   ],
 
   providers: [],

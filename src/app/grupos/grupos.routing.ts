@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GrupoFormComponent } from './grupo-form/grupo-form.component';
+import { GruposFormComponent } from './grupos-form/grupos-form.component';
 
-import { GruposComponent } from './grupos.component';
+import { GruposListComponent } from './grupos-list/grupos-list.component';
 
 const gruposRoutes: Routes = [
-  { path: '', component: GruposComponent },
-  { path: 'form', component: GrupoFormComponent },
-  { path: 'editar/:id', component: GrupoFormComponent },
+  { path: '', component: GruposListComponent },
+  { path: 'form', component: GruposFormComponent },
+  { path: 'editar/:id', component: GruposFormComponent },
 ];
 
 @NgModule({

@@ -1,28 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, EMPTY, PartialObserver } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { GruposService } from 'src/app/grupos/grupos.service';
+import { GruposService } from 'src/app/grupos/shared/grupos.service';
 
-import { Cliente } from 'src/app/models/Cliente';
-import { Grupo } from 'src/app/models/Grupo';
-import { ClientesService } from '../clientes.service';
+import { Cliente } from 'src/app/clientes/shared/Cliente';
+import { Grupo } from 'src/app/grupos/shared/Grupo';
+import { ClientesService } from '../shared/clientes.service';
 
 @Component({
-  selector: 'app-cliente-form',
-  templateUrl: './cliente-form.component.html',
-  styleUrls: ['./cliente-form.component.scss'],
+  selector: 'app-clientes-form',
+  templateUrl: './clientes-form.component.html',
+  styleUrls: ['./clientes-form.component.scss'],
 })
-export class ClienteFormComponent implements OnInit {
-  state$: Observable<object>;
-  cliente$: Observable<Cliente>;
-  err: any;
+export class ClientesFormComponent implements OnInit {
+  clientes: Cliente[];
+  grupos: Grupo[];
   cliente: Cliente;
   form: FormGroup;
   title: string;
   salvarTexto: string;
-  grupos$: Observable<Grupo[]>;
+  err: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,16 +34,18 @@ export class ClienteFormComponent implements OnInit {
   ngOnInit() {
     this.salvarTexto = 'Salvar';
 
-    this.grupos$ = this.grupoService.getGrupos().pipe(
+    //grupos
+    let grupos$ = this.grupoService.getGrupos().pipe(
       catchError((error) => {
         console.error(error);
+        this.err = 'Falha ao atualizar o cliente';
         return EMPTY;
       })
     );
+    grupos$.forEach((grupos) => (this.grupos = grupos));
 
-    this.state$ = this.activatedRoute.paramMap.pipe(
-      map(() => window.history.state)
-    );
+    //clientes recebido
+    this.activatedRoute.paramMap.pipe(map(() => window.history.state));
     if (history.state.cliente) {
       this.cliente = history.state.cliente;
       this.title = 'Editar Cliente';
@@ -52,6 +53,8 @@ export class ClienteFormComponent implements OnInit {
       this.cliente = new Cliente();
       this.title = 'Novo Cliente';
     }
+
+    this.clientes = history.state.clientes;
     this.configForm();
   }
 
@@ -83,39 +86,48 @@ export class ClienteFormComponent implements OnInit {
     this.salvarTexto = 'carregando...';
     const form: Cliente = this.form.value;
 
-    if (await this.checkClienteExist(this.cliente)) {
-      return;
-    }
-
     this.cliente = {
       ...this.cliente,
       ...form,
     };
-    if (this.cliente.clienteId) {
-      this.cliente$ = this.clienteService.updateCliente(this.cliente).pipe(
-        catchError((error) => {
-          console.error(error);
-          this.err = 'Falha ao atualizar o cliente';
-          return EMPTY;
-        })
-      );
-    } else {
-      this.cliente$ = this.clienteService.createCliente(this.cliente).pipe(
-        catchError((error) => {
-          console.error(error);
-          this.err = 'Falha ao criar o cliente';
-          return EMPTY;
-        })
-      );
+
+    if (await this.checkClienteExist(this.cliente)) {
+      return;
     }
-    this.cliente$.subscribe((t) => this.voltarClicked());
+
+    if (this.cliente.clienteId) {
+      this.clienteService
+        .updateCliente(this.cliente)
+        .pipe(
+          catchError((error) => {
+            console.error(error);
+            this.err = 'Falha ao atualizar o cliente';
+            return EMPTY;
+          })
+        )
+        .toPromise()
+        .then(() => this.voltarClicked());
+    } else {
+      this.clienteService
+        .createCliente(this.cliente)
+        .pipe(
+          catchError((error) => {
+            console.error(error);
+            this.err = 'Falha ao criar o cliente';
+            return EMPTY;
+          })
+        )
+        .toPromise()
+        .then(() => this.voltarClicked());
+    }
   }
 
   async checkClienteExist(cliente: Cliente) {
-    const cliente$ = await this.clienteService.getClientes().toPromise();
-    const _cliente = cliente$.find((c) => c.cpf == cliente.cpf);
+    const clientes = await this.clienteService.getClientes().toPromise();
+    const _cliente = clientes.find((c) => c.cpf == cliente.cpf);
+
     if (_cliente && _cliente.clienteId != cliente.clienteId) {
-      this.salvarTexto = 'Já existe';
+      this.salvarTexto = 'Já CPF em uso existe';
       setTimeout(() => (this.salvarTexto = 'Salvar'), 3000);
       return true;
     } else {

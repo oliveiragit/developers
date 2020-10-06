@@ -1,0 +1,78 @@
+.content {
+  margin: 20px;
+  h1 {
+    color: #fff;
+  }
+
+  section {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    .form {
+      display: flex;
+      flex-direction: column;
+
+      background: #fff;
+      border-radius: 5px;
+
+      input[type="text"] {
+        margin-bottom: 5px;
+      }
+      input[type="checkbox"] {
+        width: 30px;
+      }
+    }
+
+    #button-novo {
+      align-self: flex-end;
+      background: #fff;
+      border: none;
+      border-radius: 40px;
+      width: 200px;
+      height: 30px;
+      transition: background 0.2s;
+      &:hover {
+        background: #3b9eff;
+      }
+    }
+  }
+  table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+    // display: block;
+    // position: relative;
+    // width: 100%;
+    background: #fff;
+    //word-break: break-word;
+    thead th {
+      color: #999;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    tbody td {
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    .btn-table {
+      width: 20px;
+    }
+    button {
+      border: none;
+      background: none;
+    }
+    #icon-edit {
+      color: gray;
+    }
+    #icon-check {
+      color: green;
+    }
+    #icon-trash2 {
+      color: red;
+    }
+    #icon-xcircle {
+      color: red;
+    }
+  }
+}
