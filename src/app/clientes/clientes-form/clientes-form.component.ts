@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, EMPTY } from 'rxjs';
+import { EMPTY } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { GruposService } from 'src/app/grupos/shared/grupos.service';
 
@@ -38,7 +43,7 @@ export class ClientesFormComponent implements OnInit {
     const grupos$ = this.grupoService.getGrupos().pipe(
       catchError((error) => {
         console.error(error);
-        this.err = 'Falha ao atualizar o cliente';
+        this.err = 'Falha ao buscar os grupos';
         return EMPTY;
       })
     );

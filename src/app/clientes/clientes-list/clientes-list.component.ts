@@ -45,8 +45,7 @@ export class ClientesListComponent implements OnInit {
         return EMPTY;
       })
     );
-    clis$.forEach((c) => console.log(c));
-    grupos$.forEach((g) => console.log(g));
+
     const mergeById = ([clientes, grupos]) =>
       clientes.map((cli: Cliente) =>
         Object.assign({}, cli, {

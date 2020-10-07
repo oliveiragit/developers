@@ -60,7 +60,7 @@
             <span> {{ cliente.cpf | mask: "CPF_CNPJ" }}</span>
           </td>
           <td>
-            <span> {{ cliente.telefone | mask: "(00) 0000-0000" }}</span>
+            <span> {{ cliente.telefone | mask: "(00) 0000-0000||(00) 0 0000-0000" }}</span>
           </td>
           <td>
             <span> {{ cliente.dataCadastro | date: "dd/MM/yyyy" }}</span>
