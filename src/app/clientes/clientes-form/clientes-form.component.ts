@@ -133,6 +133,10 @@ export class ClientesFormComponent implements OnInit {
 
     if (cli && cli.clienteId !== cliente.clienteId) {
       this.loading = false;
+      this.err = 'CPF já foi utilizado';
+      setTimeout(() => {
+        this.err = null;
+      }, 5000);
       return true;
     } else {
       return false;

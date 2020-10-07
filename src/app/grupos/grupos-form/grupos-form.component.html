@@ -49,10 +49,14 @@
   </form>
 </div>
 
-<ng-template #loading>
-  <span>Carregando...</span>
+<ng-template #spinner>
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
 </ng-template>
 
-<ng-template #erro>
-  <span>{{ err }}</span>
+<ng-template #error>
+  <div class="alert alert-danger">
+    <span>{{ err }}</span>
+  </div>
 </ng-template>
