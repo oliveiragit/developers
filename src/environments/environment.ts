@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  //API: 'http://179.228.137.45:7777/micro-cadastro/api',
+  // API: 'http://179.228.137.45:7777/micro-cadastro/api',
+  // API: 'http://192.168.0.14:5002/api',
   API: 'http://localhost:5000/api',
+
   BASE_URL: '/api',
 };
 
