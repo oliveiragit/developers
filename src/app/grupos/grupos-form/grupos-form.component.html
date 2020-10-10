@@ -42,10 +42,10 @@
     </div>
     <div class="buttons">
       <button (click)="voltarClicked()">Voltar</button>
-      <button type="submit" [disabled]="form.invalid">
-        {{ salvarTexto }}
-      </button>
+      <button type="submit" [disabled]="form.invalid">Salvar</button>
+      <div *ngIf="!loading; else spinner"></div>
     </div>
+    <div *ngIf="!err; else error"></div>
   </form>
 </div>
 

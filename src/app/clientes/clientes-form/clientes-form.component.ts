@@ -34,7 +34,7 @@ export class ClientesFormComponent implements OnInit {
     private grupoService: GruposService,
     private activatedRoute: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loading = false;
@@ -94,6 +94,7 @@ export class ClientesFormComponent implements OnInit {
     this.cliente = {
       ...this.cliente,
       ...form,
+      nome: this.capitalizeName(form.nome)
     };
 
     if (await this.checkClienteExist(this.cliente)) {
@@ -141,6 +142,26 @@ export class ClientesFormComponent implements OnInit {
     } else {
       return false;
     }
+  }
+  capitalizeName(name: string): string {
+    const capital = /^\D/g;
+    const prep = /^d?[a,e,i,o,u]s?$/gi;
+    const apostrofo = /\w'./;
+
+    return name
+      .toLowerCase()
+      .split(' ')
+      .filter(str => str.length > 0)
+      .map(str =>
+        str
+          .replace(capital, match => match.toUpperCase())
+          .replace(prep, match => match.toLowerCase())
+          .replace(apostrofo, match => match
+            .toLowerCase()
+            .replace(/'./, l =>
+              l.toUpperCase()))
+      )
+      .join(' ');
   }
   voltarClicked(): void {
     this.router.navigateByUrl('/clientes');

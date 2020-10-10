@@ -35,7 +35,7 @@ export class GruposListComponent implements OnInit {
     );
   }
 
-  onEdit(grupo: Grupo) {
+  onEdit(grupo: Grupo): void {
     this.router.navigate(['']);
     this.router.navigate(['editar', grupo.grupoId], {
       state: { grupo },
@@ -43,11 +43,11 @@ export class GruposListComponent implements OnInit {
     });
   }
 
-  onDelete(grupo: Grupo) {
+  onDelete(grupo: Grupo): void {
     if (
       confirm(`O grupo ${grupo.nome.toUpperCase()} será apagado. Tem certeza?`)
     ) {
-      let deleted = this.grupoService.deleteGrupo(grupo).pipe(
+      const deleted = this.grupoService.deleteGrupo(grupo).pipe(
         catchError((error) => {
           this.errorHandler('Ainda tem clientes cadastrados?');
           return EMPTY;
@@ -57,10 +57,10 @@ export class GruposListComponent implements OnInit {
     }
   }
 
-  novoGrupo() {
+  novoGrupo(): void {
     this.router.navigate(['form'], { relativeTo: this.route });
   }
-  errorHandler(message) {
+  errorHandler(message): void {
     this.err = message;
     setTimeout(() => {
       this.err = null;

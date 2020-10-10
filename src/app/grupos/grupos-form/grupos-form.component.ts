@@ -17,17 +17,16 @@ export class GruposFormComponent implements OnInit {
   grupos$: Observable<Grupo>;
   grupo: Grupo;
   title: string;
-  salvarTexto: string;
+  loading: boolean;
   err: any;
   constructor(
     private formBuilder: FormBuilder,
     private grupoService: GruposService,
     public activatedRoute: ActivatedRoute,
     public router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {
-    this.salvarTexto = 'Salvar';
+  ngOnInit(): void {
     this.activatedRoute.paramMap.pipe(map(() => window.history.state));
 
     if (history.state.grupo) {
@@ -37,17 +36,18 @@ export class GruposFormComponent implements OnInit {
       this.grupo = new Grupo();
       this.title = 'Novo Grupo';
     }
+
     this.configForm();
   }
 
-  configForm() {
+  configForm(): void {
     this.form = this.formBuilder.group({
       nome: [this.grupo.nome, [Validators.required, Validators.minLength(3)]],
       ativo: [this.grupo.ativo, Validators.required],
     });
   }
-  async onSubmit() {
-    this.salvarTexto = 'carregando...';
+  async onSubmit(): Promise<any> {
+    this.loading = true;
 
     const form = this.form.value;
 
@@ -79,20 +79,20 @@ export class GruposFormComponent implements OnInit {
     }
     this.grupos$.subscribe((t) => this.voltarClicked());
   }
-  async checkGroupExist(grupo: Grupo) {
-    const grupo$ = await this.grupoService.getGrupos().toPromise();
-    const _grupo = grupo$.find(
-      (g) => g.nome.toLocaleLowerCase() == grupo.nome.toLocaleLowerCase()
+
+  async checkGroupExist(grupo: Grupo): Promise<boolean> {
+    const grupos$ = await this.grupoService.getGrupos().toPromise();
+    const gr = grupos$.find(
+      (g) => g.nome.toLocaleLowerCase() === grupo.nome.toLocaleLowerCase()
     );
-    if (_grupo && _grupo.grupoId != grupo.grupoId) {
-      this.salvarTexto = 'Já existe';
-      setTimeout(() => (this.salvarTexto = 'Salvar'), 3000);
+    if (gr && gr.grupoId !== grupo.grupoId) {
+      setTimeout(() => (this.loading = false), 3000);
       return true;
     } else {
       return false;
     }
   }
-  voltarClicked() {
+  voltarClicked(): void {
     this.router.navigateByUrl('/grupos');
   }
 }
