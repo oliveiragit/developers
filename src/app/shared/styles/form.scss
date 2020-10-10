@@ -28,11 +28,12 @@ h1 {
     }
   }
   .buttons {
+    wrap: wrap-reverse;
     align-self: flex-end;
 
     button {
       background: #fff;
-      margin-right: 5px;
+      margin: 0 5px 5px;
       border-radius: 40px;
       width: 150px;
       height: 30px;
@@ -42,11 +43,11 @@ h1 {
       &:hover {
         background: #3b9eff;
       }
-    }
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-      pointer-events: all !important;
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+        pointer-events: all !important;
+      }
     }
   }
 }
