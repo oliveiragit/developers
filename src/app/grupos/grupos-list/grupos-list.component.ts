@@ -24,7 +24,7 @@ export class GruposListComponent implements OnInit {
     private grupoService: GruposService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.grupos = this.grupoService.getGrupos().pipe(
@@ -53,7 +53,7 @@ export class GruposListComponent implements OnInit {
           return EMPTY;
         })
       );
-      deleted.subscribe((s) => this.ngOnInit());
+      deleted.subscribe(() => this.ngOnInit());
     }
   }
 

@@ -25,7 +25,7 @@ export class ClientesListComponent implements OnInit {
     private grupoService: GruposService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.iniciarClientes();
@@ -72,13 +72,12 @@ export class ClientesListComponent implements OnInit {
         `O cliente ${cliente.nome.toUpperCase()} será apagado. Tem certeza?`
       )
     ) {
-      const deleted = this.clienteService.deleteCliente(cliente).pipe(
+      this.clienteService.deleteCliente(cliente).pipe(
         catchError((error) => {
           this.errorHandler('Falha ao remover!');
           return EMPTY;
         })
-      );
-      deleted.subscribe((s) => this.ngOnInit());
+      ).subscribe(() => this.iniciarClientes());
     }
   }
 

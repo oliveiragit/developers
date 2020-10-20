@@ -77,7 +77,7 @@ export class GruposFormComponent implements OnInit {
         })
       );
     }
-    this.grupos$.subscribe((t) => this.voltarClicked());
+    this.grupos$.subscribe(() => this.voltarClicked());
   }
 
   async checkGroupExist(grupo: Grupo): Promise<boolean> {
